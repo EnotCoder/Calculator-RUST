@@ -1,9 +1,9 @@
 
 pub fn get_currect_mode(i:i32) -> String{
     match i{
-        0 => "def".to_string(),
-        1 => "cst".to_string(),
-        _ => "...".to_string(),
+        0 => " def".to_string(),
+        1 => "exit".to_string(),
+        _ => "....".to_string(),
     }
 }
 

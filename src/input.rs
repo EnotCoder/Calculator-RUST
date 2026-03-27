@@ -6,7 +6,7 @@ use evalexpr::*;
 use crate::currect::*;
 use crate::display::*;
 
-pub fn input_calc(s:&mut i32,p:&mut String) -> bool{
+pub fn input_calc(program_state:&mut i32,s:&mut i32,p:&mut String) -> bool{
     let stdin = io::stdin();
     if let Some(key) = stdin.keys().next() {
         match key.unwrap() {
@@ -60,6 +60,7 @@ pub fn input_calc(s:&mut i32,p:&mut String) -> bool{
                 }
                 true
             }
+            Key::Ctrl('c') => {*program_state = -1;true},
             _ => true,
         }
     }else{
@@ -67,11 +68,27 @@ pub fn input_calc(s:&mut i32,p:&mut String) -> bool{
     }
 }
 
-pub fn input_mode() -> bool{
+pub fn input_mode(program_state:&mut i32,m:&mut i32) -> bool{
     let stdin = io::stdin();
     if let Some(key) = stdin.keys().next() {
         match key.unwrap() {
             Key::Char('q') => false,
+            Key::Down => {
+                if *m != 1{
+                    *m += 1;
+                }
+                true
+            },
+            Key::Up => {
+                if *m != 0{
+                    *m -= 1;
+                }
+                true
+            },
+            Key::Char('\n') => {
+                *program_state = *m;
+                true
+            }
             _ => true,
         }
     }else{

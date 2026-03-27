@@ -8,8 +8,8 @@ const ENTER:&str = "\x1b[G";
 const RED:&str = "\x1b[31m";
 const RESET:&str = "\x1b[0m";
 
-pub fn draw_buttons<W: Write>(s: i32, mut stdout: W){
-    write!(stdout," ===============\n{ENTER}");
+pub fn draw_buttons<W: Write>(m: i32,s: i32, mut stdout: W){
+    write!(stdout," ================\n{ENTER}");
     for i in 0..4{
         write!(stdout," | ");
         for j in 0..4{
@@ -23,19 +23,26 @@ pub fn draw_buttons<W: Write>(s: i32, mut stdout: W){
             };
             write!(stdout,"{0} ",ch);
         };
-        write!(stdout,"|{0}|\n{ENTER}",get_currect_mode(i));
+        let ch = if i == m{
+            let n = get_currect_mode(i);
+            RED.to_owned() + &n
+            + &RESET.to_owned()
+        }else{
+            get_currect_mode(i)
+        };
+        write!(stdout,"|{0}|\n{ENTER}",ch);
     }
 
-    write!(stdout," ===============\n{ENTER}");
+    write!(stdout," ================\n{ENTER}");
 }
 
 pub fn display<W: Write>(mut stdout: W,text:String){
-    write!(stdout," ===============\n{ENTER}");
+    write!(stdout," ================\n{ENTER}");
     write!(stdout," |");
     write!(stdout,"{text}");
     for i in 0..9-text.len() as usize{
         write!(stdout," ");
     }
-    write!(stdout,"|   |");
+    write!(stdout,"|V:01|");
     write!(stdout,"\n{ENTER}");
 }
